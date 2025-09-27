@@ -29,15 +29,13 @@ class AuthApiError extends Error {
 }
 
 class AuthApiClient {
-  private readonly baseUrl = config.backendUrl;
-
   async login(
     email: string,
     password: string,
     remember = false,
   ): Promise<AuthUser> {
     try {
-      const response = await fetch(`${this.baseUrl}/api/v1/auth/login`, {
+      const response = await fetch(`${config.backendUrl}/api/v1/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, remember }),
@@ -74,7 +72,7 @@ class AuthApiClient {
     }
 
     try {
-      const response = await fetch(`${this.baseUrl}/api/v1/auth/logout`, {
+      const response = await fetch(`${config.backendUrl}/api/v1/auth/logout`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${sessionId}`,

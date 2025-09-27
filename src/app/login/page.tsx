@@ -4,6 +4,7 @@ import { ArrowLeft, Eye, EyeOff, Github, Mail, Zap } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
 import { useState } from "react";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,6 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import AuthService from "@/lib/auth";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,17 +25,55 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {},
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+
+    // Client-side validation - validate each field individually
+    const fieldErrors: { email?: string; password?: string } = {};
+
+    const emailValidation = z.email().safeParse(email);
+    if (!emailValidation.success) {
+      fieldErrors.email =
+        emailValidation.error.message || "Please enter a valid email address";
+    }
+
+    const passwordValidation = z.string().min(8).safeParse(password);
+    if (!passwordValidation.success) {
+      fieldErrors.password =
+        passwordValidation.error.message ||
+        "Password must be at least 8 characters long";
+    }
+
+    if (Object.keys(fieldErrors).length > 0) {
+      setErrors(fieldErrors);
+      return;
+    }
+
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      await AuthService.signIn("credentials", {
+        email,
+        password,
+        remember: rememberMe.toString(),
+        redirectTo: "/dashboard",
+      });
+
+      // NextAuth handles the redirect automatically
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error && error.message.includes("NEXT_REDIRECT")) {
+      } else {
+        throw error;
+      }
+    } finally {
       setIsLoading(false);
-      // Redirect to dashboard on success
-      window.location.href = "/dashboard";
-    }, 1500);
+    }
   };
 
   return (
@@ -108,7 +148,11 @@ export default function LoginPage() {
                   type="email"
                   placeholder="Enter your email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (errors.email)
+                      setErrors((prev) => ({ ...prev, email: undefined }));
+                  }}
                   required
                 />
               </div>
@@ -121,7 +165,11 @@ export default function LoginPage() {
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (errors.password)
+                        setErrors((prev) => ({ ...prev, password: undefined }));
+                    }}
                     required
                   />
                   <Button
