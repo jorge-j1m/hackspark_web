@@ -31,10 +31,10 @@ const ApiResponseSchema = <T>(dataSchema: z.ZodType<T>) =>
 
 export const UserSchema = z.object({
   id: z.string(),
-  email: z.email(),
   firstName: z.string(),
   lastName: z.string(),
   username: z.string(),
+  email: z.email(),
 });
 
 type User = z.infer<typeof UserSchema>;
@@ -49,6 +49,15 @@ export type LoginData = AuthUser;
 
 export type LoginResponse = ApiResponse<AuthUser>;
 export const LoginResponseSchema = ApiResponseSchema(AuthUserSchema);
+
+export const SignupDataSchema = UserSchema.omit({ id: true }).extend({
+  password: z.string(),
+});
+
+export type SignupData = z.infer<typeof SignupDataSchema>;
+
+export type SignupResponse = ApiResponse<User>;
+export const SignupResponseSchema = ApiResponseSchema(UserSchema);
 
 export type UserInfoResponse = ApiResponse<User>;
 export const UserInfoResponseSchema = ApiResponseSchema(UserSchema);

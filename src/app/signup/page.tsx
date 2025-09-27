@@ -2,6 +2,7 @@
 
 import { ArrowLeft, Eye, EyeOff, Github, Mail, User, Zap } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -16,8 +17,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import AuthService from "@/lib/auth";
+import type { SignupData } from "@/types";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -26,19 +30,32 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreeToTerms) return;
 
     setIsLoading(true);
+    setError("");
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const signupData: SignupData = {
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+      };
+
+      await AuthService.signup(signupData);
+      router.push("/login");
+    } catch (error) {
+      setError("Signup failed. Please try again.");
+      console.error("Signup error:", error);
+    } finally {
       setIsLoading(false);
-      // Redirect to dashboard on success
-      window.location.href = "/dashboard";
-    }, 1500);
+    }
   };
 
   return (
@@ -73,6 +90,11 @@ export default function SignupPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            {error && (
+              <div className="p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+                {error}
+              </div>
+            )}
             {/* Social Login */}
             <div className="space-y-3">
               <Button

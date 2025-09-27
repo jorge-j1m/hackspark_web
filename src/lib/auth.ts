@@ -3,8 +3,12 @@ import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import { config } from "@/lib/config";
 import { isValidSessionId } from "@/lib/utils";
-import type { AuthUser } from "@/types";
-import { AuthUserSchema, LoginResponseSchema } from "@/types";
+import type { AuthUser, SignupData } from "@/types";
+import {
+  AuthUserSchema,
+  LoginResponseSchema,
+  SignupResponseSchema,
+} from "@/types";
 
 // === VALIDATION ===
 const credentialsSchema = z.object({
@@ -63,6 +67,33 @@ class AuthApiClient {
     } catch (error) {
       console.error("Login failed:", error);
       throw new Error("Login failed");
+    }
+  }
+
+  async signup(signupData: SignupData): Promise<void> {
+    try {
+      const response = await fetch(`${config.backendUrl}/api/v1/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(signupData),
+      });
+
+      if (!response.ok) {
+        throw new AuthApiError(
+          `Signup failed: ${response.statusText}`,
+          response.status,
+        );
+      }
+
+      const rawResult = await response.json();
+      const result = SignupResponseSchema.parse(rawResult);
+
+      if (!result.success) {
+        throw new AuthApiError(result.message, response.status);
+      }
+    } catch (error) {
+      console.error("Signup failed:", error);
+      throw new Error("Signup failed");
     }
   }
 
@@ -211,6 +242,11 @@ const AuthService = {
     // For client-side, we'll redirect to the NextAuth signin page with credentials
     const { signIn: clientSignIn } = await import("next-auth/react");
     return clientSignIn(provider, credentials);
+  },
+
+  // Signup function
+  signup: async (signupData: SignupData) => {
+    return apiClient.signup(signupData);
   },
 
   // Server-side logout only
