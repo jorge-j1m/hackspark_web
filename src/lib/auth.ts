@@ -37,14 +37,11 @@ class AuthApiClient {
     remember = false,
   ): Promise<AuthUser> {
     try {
-      const response = await fetch(
-        `${this.baseUrl}/api/v1/auth/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password, remember }),
-        },
-      );
+      const response = await fetch(`${this.baseUrl}/api/v1/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, remember }),
+      });
 
       if (!response.ok) {
         throw new AuthApiError(
@@ -77,16 +74,13 @@ class AuthApiClient {
     }
 
     try {
-      const response = await fetch(
-        `${this.baseUrl}/api/v1/auth/logout`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${sessionId}`,
-            "Content-Type": "application/json",
-          },
+      const response = await fetch(`${this.baseUrl}/api/v1/auth/logout`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${sessionId}`,
+          "Content-Type": "application/json",
         },
-      );
+      });
 
       if (!response.ok) {
         console.warn(`Backend logout failed: ${response.status}`);

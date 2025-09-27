@@ -52,4 +52,3 @@ export const LoginResponseSchema = ApiResponseSchema(AuthUserSchema);
 
 export type UserInfoResponse = ApiResponse<User>;
 export const UserInfoResponseSchema = ApiResponseSchema(UserSchema);
-
