@@ -34,7 +34,11 @@ export default function AuthGuard({ children }: AuthGuardProps) {
   }, [session, status, pathname, router]);
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    // spinning component
+    return <div className="flex h-screen w-full items-center justify-center">
+              <div className="h-20 w-20 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+            </div>
+;
   }
 
   if (!session) {
