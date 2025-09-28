@@ -1,4 +1,4 @@
-import { Code, Heart, TrendingUp, Zap } from "lucide-react";
+import { Code, Heart, TrendingUp, Zap, Rocket, Star, Users, Gauge } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -85,11 +85,14 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="container mx-auto px-4 py-16">
+      <section className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <Card className="text-center border-border/50">
+          <Card className="text-center border-border/50 hover:border-primary/20 transition-all duration-300 group">
             <CardContent className="pt-6">
-              <div className="text-3xl font-bold mb-2">2.5k+</div>
+              <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+                <Rocket className="w-7 h-7 text-primary" />
+              </div>
+              <div className="text-3xl font-bold mb-2 text-primary">2.5k+</div>
               <div className="text-sm text-muted-foreground">
                 Projects created
               </div>
@@ -98,18 +101,24 @@ export default function HomePage() {
               </div>
             </CardContent>
           </Card>
-          <Card className="text-center border-border/50">
+          <Card className="text-center border-border/50 hover:border-primary/20 transition-all duration-300 group">
             <CardContent className="pt-6">
-              <div className="text-3xl font-bold mb-2">98%</div>
+              <div className="w-14 h-14 bg-yellow-500/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-500/20 transition-colors">
+                <Star className="w-7 h-7 text-yellow-500" />
+              </div>
+              <div className="text-3xl font-bold mb-2 text-yellow-600 dark:text-yellow-400">98%</div>
               <div className="text-sm text-muted-foreground">
                 Developer satisfaction
               </div>
               <div className="text-xs text-muted-foreground mt-1">rating</div>
             </CardContent>
           </Card>
-          <Card className="text-center border-border/50">
+          <Card className="text-center border-border/50 hover:border-primary/20 transition-all duration-300 group">
             <CardContent className="pt-6">
-              <div className="text-3xl font-bold mb-2">15k+</div>
+              <div className="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-500/20 transition-colors">
+                <Users className="w-7 h-7 text-blue-500" />
+              </div>
+              <div className="text-3xl font-bold mb-2 text-blue-600 dark:text-blue-400">15k+</div>
               <div className="text-sm text-muted-foreground">
                 Active developers
               </div>
@@ -118,9 +127,12 @@ export default function HomePage() {
               </div>
             </CardContent>
           </Card>
-          <Card className="text-center border-border/50">
+          <Card className="text-center border-border/50 hover:border-primary/20 transition-all duration-300 group">
             <CardContent className="pt-6">
-              <div className="text-3xl font-bold mb-2">3x</div>
+              <div className="w-14 h-14 bg-green-500/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-500/20 transition-colors">
+                <Gauge className="w-7 h-7 text-green-500" />
+              </div>
+              <div className="text-3xl font-bold mb-2 text-green-600 dark:text-green-400">3x</div>
               <div className="text-sm text-muted-foreground">Faster to</div>
               <div className="text-xs text-muted-foreground mt-1">
                 prototype + deploy
