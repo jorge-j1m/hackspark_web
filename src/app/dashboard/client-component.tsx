@@ -8,6 +8,7 @@ import {
   LogOut,
   Plus,
   Settings,
+  Star,
   TrendingUp,
   User,
   Users,
@@ -61,6 +62,7 @@ import { type UserProject, UserProjectSchema } from "@/types/users";
 
 export default function DashboardComponent() {
   const { data: userDetails, isLoading } = useUserDetails();
+  const { projects } = userDetails || {};
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -147,6 +149,22 @@ export default function DashboardComponent() {
       const parsed = UserProjectSchema.parse(project);
       return acc + parsed.like_count;
     }, 0);
+  }
+
+  function getProjectStatus(addedAt: string) {
+    const now = new Date();
+    const projectDate = new Date(addedAt);
+    const minutesDiff = Math.floor(
+      (now.getTime() - projectDate.getTime()) / (1000 * 60),
+    );
+
+    if (minutesDiff <= 5) {
+      return { label: "New", variant: "default" as const };
+    } else if (minutesDiff <= 30) {
+      return { label: "Active", variant: "secondary" as const };
+    } else {
+      return { label: "Completed", variant: "outline" as const };
+    }
   }
 
   return (
@@ -344,92 +362,82 @@ export default function DashboardComponent() {
                 </div>
 
                 <div className="space-y-4">
-                  {[
-                    {
-                      title: "TaskFlow - Smart Project Manager",
-                      description:
-                        "AI-powered project management tool with automated task prioritization and team collaboration features",
-                      status: "Active",
-                      likes: 89,
-                      tags: ["React", "Node.js", "AI", "MongoDB"],
-                      lastUpdated: "2 days ago",
-                    },
-                    {
-                      title: "CodeSnap - Screenshot to Code",
-                      description:
-                        "Convert UI screenshots into clean, production-ready code using computer vision and GPT-4",
-                      status: "In Development",
-                      likes: 156,
-                      tags: ["Python", "OpenAI", "FastAPI", "React"],
-                      lastUpdated: "5 hours ago",
-                    },
-                    {
-                      title: "DevMetrics Dashboard",
-                      description:
-                        "Personal analytics dashboard for developers to track coding habits, productivity, and skill growth",
-                      status: "Completed",
-                      likes: 234,
-                      tags: ["Next.js", "TypeScript", "Supabase", "Charts"],
-                      lastUpdated: "1 week ago",
-                    },
-                  ].map((project) => (
-                    <Card
-                      key={project.title}
-                      className="border-border/50 hover:border-border transition-colors"
-                    >
-                      <CardHeader>
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
-                              <CardTitle className="text-lg">
-                                {project.title}
-                              </CardTitle>
-                              <Badge
-                                variant={
-                                  project.status === "Active"
-                                    ? "default"
-                                    : project.status === "Completed"
-                                      ? "secondary"
-                                      : "outline"
-                                }
-                                className="text-xs"
-                              >
-                                {project.status}
-                              </Badge>
+                  {projects && projects.length > 0 ? (
+                    projects
+                      .sort(
+                        (a, b) =>
+                          new Date(b.added_at).getTime() -
+                          new Date(a.added_at).getTime(),
+                      )
+                      .map((project) => (
+                        <Card
+                          key={project.id}
+                          className="border-border/50 hover:border-border transition-colors"
+                        >
+                          <CardHeader>
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-2">
+                                  <CardTitle className="text-lg">
+                                    {project.name}
+                                  </CardTitle>
+                                  <Badge
+                                    variant={
+                                      getProjectStatus(project.added_at).variant
+                                    }
+                                    className="text-xs"
+                                  >
+                                    {getProjectStatus(project.added_at).label}
+                                  </Badge>
+                                </div>
+                                <CardDescription className="text-sm leading-relaxed">
+                                  {project.description}
+                                </CardDescription>
+                              </div>
                             </div>
-                            <CardDescription className="text-sm leading-relaxed">
-                              {project.description}
-                            </CardDescription>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap gap-2 mt-3">
-                          {project.tags.map((tag) => (
-                            <Badge
-                              key={tag}
-                              variant="secondary"
-                              className="text-xs"
-                            >
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex items-center justify-between text-sm text-muted-foreground">
-                          <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-1">
-                              <Heart className="w-4 h-4" />
-                              <span>{project.likes}</span>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="flex items-center justify-between text-sm text-muted-foreground">
+                              <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-1">
+                                  <Heart className="w-4 h-4" />
+                                  <span>{project.like_count}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <Star className="w-4 h-4" />
+                                  <span>{project.star_count}</span>
+                                </div>
+                                <span>
+                                  Added{" "}
+                                  {new Date(
+                                    project.added_at,
+                                  ).toLocaleDateString()}
+                                </span>
+                              </div>
+                              <Button variant="ghost" size="sm">
+                                Edit
+                              </Button>
                             </div>
-                            <span>Updated {project.lastUpdated}</span>
-                          </div>
-                          <Button variant="ghost" size="sm">
-                            Edit
-                          </Button>
-                        </div>
+                          </CardContent>
+                        </Card>
+                      ))
+                  ) : (
+                    <Card className="border-border/50 border-dashed">
+                      <CardContent className="p-8 text-center">
+                        <Code className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                        <h3 className="text-lg font-semibold mb-2">
+                          No Projects Yet
+                        </h3>
+                        <p className="text-muted-foreground mb-4">
+                          Create your first project to get started building
+                          something amazing.
+                        </p>
+                        <Button asChild>
+                          <Link href="/create">Create Your First Project</Link>
+                        </Button>
                       </CardContent>
                     </Card>
-                  ))}
+                  )}
                 </div>
               </TabsContent>
 
