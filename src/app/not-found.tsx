@@ -10,7 +10,7 @@ export default function NotFound() {
     console.log(pathname)
     useEffect(() => {
         if (pathname == "/explore" || pathname == "/trending") {
-            setMessage(`The ${pathname.charAt(1).toUpperCase() + pathname.slice(2)}  has not been developed yet`)
+            setMessage(`The ${pathname.charAt(1).toUpperCase() + pathname.slice(2)} page has not been developed yet`)
         } else {
             setMessage("Sorry, the page you are looking for doesn’t exist.")
         }
