@@ -29,4 +29,3 @@ export const UserDetailsSchema = z.object({
 export type UserDetails = z.infer<typeof UserDetailsSchema>;
 export type UserDetailsApiResponse = ApiResponse<UserDetails>;
 export type UserProject = z.infer<typeof UserProjectSchema>;
-

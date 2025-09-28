@@ -17,8 +17,9 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,6 +38,7 @@ import { createApiClient } from "@/lib/api-client";
 import { type CreateProjectData, ProjectSchema } from "@/types";
 
 export default function CreateProjectPage() {
+  const router = useRouter();
   const { data: session } = useSession();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>(
@@ -203,7 +205,7 @@ export default function CreateProjectPage() {
         projectData,
       );
       console.log("Project created successfully:", project);
-      // TODO: Handle success (redirect, show success message, etc.)
+      router.push("/dashboard");
     } catch (error) {
       console.error("Failed to create project:", error);
       // TODO: Handle error (show error message, etc.)
