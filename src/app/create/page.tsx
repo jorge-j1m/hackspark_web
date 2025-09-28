@@ -14,7 +14,6 @@ import {
   Target,
   Users,
   X,
-  Zap,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -35,6 +34,7 @@ import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { createApiClient } from "@/lib/api-client";
+import NavLogo from "@/components/ui/nav-logo";
 import { type CreateProjectData, ProjectSchema } from "@/types";
 
 export default function CreateProjectPage() {
@@ -224,12 +224,7 @@ export default function CreateProjectPage() {
                 Back to Dashboard
               </Link>
             </Button>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Zap className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold">HackSpark</span>
-            </div>
+            <NavLogo />
           </div>
           <div className="flex items-center gap-3">
             <span className="text-sm text-muted-foreground">

@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
+import NavLogo from "@/components/ui/nav-logo";
 
 export default function HomePage() {
   return (
@@ -18,12 +19,7 @@ export default function HomePage() {
       {/* Header */}
       <header className="border-b border-border/50 backdrop-blur-sm bg-background/80 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Zap className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold">HackSpark</span>
-          </div>
+          <NavLogo />
           <nav className="hidden md:flex items-center gap-6">
             <Link
               href="/explore"
