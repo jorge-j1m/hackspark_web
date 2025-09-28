@@ -56,6 +56,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserDetails } from "@/hooks/use-user-details";
+import { UserProject, UserProjectSchema } from "@/types/users";
 import { addUserTechnology } from "@/lib/api-client";
 
 export default function DashboardComponent() {
@@ -133,6 +134,16 @@ export default function DashboardComponent() {
       </div>
     );
   }
+
+  function countProjectLikes (projects: UserProject[]) {
+
+      return projects.reduce((acc, project) => {
+        // validate each project
+        const parsed = UserProjectSchema.parse(project); 
+        return acc + parsed.like_count;
+      }, 0);
+  }
+
 
   return (
     <div className="min-h-screen bg-background grid-pattern">
@@ -248,7 +259,7 @@ export default function DashboardComponent() {
                     <Code className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold">12</div>
+                    <div className="text-2xl font-bold">{userDetails?.projects?.length}</div>
                     <div className="text-sm text-muted-foreground">
                       Projects
                     </div>
@@ -263,7 +274,7 @@ export default function DashboardComponent() {
                     <Heart className="w-5 h-5 text-red-500" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold">847</div>
+                    <div className="text-2xl font-bold">{countProjectLikes(userDetails?.projects)}</div>
                     <div className="text-sm text-muted-foreground">
                       Total Likes
                     </div>
@@ -293,7 +304,7 @@ export default function DashboardComponent() {
                     <TrendingUp className="w-5 h-5 text-green-500" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold">8</div>
+                    <div className="text-2xl font-bold">{userDetails?.technologies?.length}</div>
                     <div className="text-sm text-muted-foreground">
                       Technologies
                     </div>
