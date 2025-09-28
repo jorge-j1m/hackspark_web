@@ -23,7 +23,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function DashboardPage() {
+export default function DashboardComponent() {
   return (
     <div className="min-h-screen bg-background grid-pattern">
       {/* Header */}
