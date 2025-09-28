@@ -64,7 +64,7 @@
   --primary-foreground: oklch(0.98 0.003 65);
 
   /* Secondary using #bc5d2e for depth */
-  --secondary: oklch(0.90 0.008 65);
+  --secondary: oklch(0.9 0.008 65);
   --secondary-foreground: oklch(0.48 0.14 42);
 
   /* Muted using #bbb8b2 */
@@ -97,7 +97,7 @@
   --sidebar-foreground: oklch(0.19 0.015 258);
   --sidebar-primary: oklch(0.7 0.22 50);
   --sidebar-primary-foreground: oklch(0.98 0.003 65);
-  --sidebar-accent: oklch(0.90 0.008 65);
+  --sidebar-accent: oklch(0.9 0.008 65);
   --sidebar-accent-foreground: oklch(0.48 0.14 42);
   --sidebar-border: oklch(0.85 0.008 65 / 50%);
   --sidebar-ring: oklch(0.7 0.22 50);
@@ -113,7 +113,7 @@
   --card-foreground: oklch(0.92 0.005 85);
 
   /* Popovers with slight variation */
-  --popover: oklch(0.20 0.018 258);
+  --popover: oklch(0.2 0.018 258);
   --popover-foreground: oklch(0.93 0.005 85);
 
   /* Primary using brighter #de9151 - warm orange gold */
@@ -171,16 +171,30 @@
   /* Custom palette visual effects using brighter colors */
   .dark body {
     background:
-      radial-gradient(circle at 20% 80%, oklch(0.52 0.16 42 / 25%) 0%, transparent 50%), /* brighter #bc5d2e */
-      radial-gradient(circle at 80% 20%, oklch(0.72 0.18 58 / 20%) 0%, transparent 50%), /* brighter #de9151 */
-      radial-gradient(circle at 40% 40%, oklch(0.58 0.24 32 / 10%) 0%, transparent 50%), /* brighter #f34213 */
-      oklch(0.19 0.015 258); /* #2e2e3a */
+      radial-gradient(
+        circle at 20% 80%,
+        oklch(0.52 0.16 42 / 25%) 0%,
+        transparent 50%
+      ), /* brighter #bc5d2e */
+      radial-gradient(
+        circle at 80% 20%,
+        oklch(0.72 0.18 58 / 20%) 0%,
+        transparent 50%
+      ), /* brighter #de9151 */
+      radial-gradient(
+        circle at 40% 40%,
+        oklch(0.58 0.24 32 / 10%) 0%,
+        transparent 50%
+      ), /* brighter #f34213 */ oklch(0.19 0.015 258); /* #2e2e3a */
   }
 
   /* Card effects using your palette */
   .dark .bg-card {
-    background:
-      linear-gradient(135deg, oklch(0.21 0.02 258) 0%, oklch(0.20 0.018 258) 100%);
+    background: linear-gradient(
+      135deg,
+      oklch(0.21 0.02 258) 0%,
+      oklch(0.2 0.018 258) 100%
+    );
     border: 1px solid oklch(0.73 0.008 65 / 30%); /* #bbb8b2 */
     box-shadow:
       0 4px 6px -1px oklch(0.19 0.015 258 / 20%),
@@ -190,16 +204,22 @@
 
   /* Primary button using brighter #de9151 */
   .dark .bg-primary {
-    background:
-      linear-gradient(135deg, oklch(0.72 0.18 58) 0%, oklch(0.69 0.19 55) 100%);
+    background: linear-gradient(
+      135deg,
+      oklch(0.72 0.18 58) 0%,
+      oklch(0.69 0.19 55) 100%
+    );
     box-shadow:
       0 4px 14px 0 oklch(0.72 0.18 58 / 35%),
       inset 0 1px 0 oklch(0.79 0.16 62 / 40%);
   }
 
   .dark .bg-primary:hover {
-    background:
-      linear-gradient(135deg, oklch(0.75 0.19 56) 0%, oklch(0.72 0.20 53) 100%);
+    background: linear-gradient(
+      135deg,
+      oklch(0.75 0.19 56) 0%,
+      oklch(0.72 0.2 53) 100%
+    );
     box-shadow:
       0 6px 20px 0 oklch(0.72 0.18 58 / 45%),
       inset 0 1px 0 oklch(0.82 0.17 65 / 50%);
@@ -213,8 +233,11 @@
 
   /* Grid pattern using subtle palette colors */
   .dark .grid-pattern {
-    background-image:
-      radial-gradient(circle at 1px 1px, oklch(0.73 0.008 65 / 15%) 1px, transparent 0);
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      oklch(0.73 0.008 65 / 15%) 1px,
+      transparent 0
+    );
     background-size: 20px 20px;
   }
 
@@ -240,16 +263,30 @@
   /* Enhanced light mode body with more noticeable gradients */
   body {
     background:
-      radial-gradient(circle at 20% 80%, oklch(0.7 0.22 50 / 12%) 0%, transparent 50%), /* original bright orange */
-      radial-gradient(circle at 80% 20%, oklch(0.56 0.22 32 / 10%) 0%, transparent 50%), /* bright #f34213 */
-      radial-gradient(circle at 40% 40%, oklch(0.48 0.14 42 / 8%) 0%, transparent 50%), /* bright #bc5d2e */
-      oklch(0.95 0.005 65); /* #bbb8b2 base */
+      radial-gradient(
+        circle at 20% 80%,
+        oklch(0.7 0.22 50 / 12%) 0%,
+        transparent 50%
+      ), /* original bright orange */
+      radial-gradient(
+        circle at 80% 20%,
+        oklch(0.56 0.22 32 / 10%) 0%,
+        transparent 50%
+      ), /* bright #f34213 */
+      radial-gradient(
+        circle at 40% 40%,
+        oklch(0.48 0.14 42 / 8%) 0%,
+        transparent 50%
+      ), /* bright #bc5d2e */ oklch(0.95 0.005 65); /* #bbb8b2 base */
   }
 
   /* Enhanced card effects with depth and gradients */
   .bg-card {
-    background:
-      linear-gradient(135deg, oklch(0.98 0.003 65) 0%, oklch(0.96 0.004 62) 100%);
+    background: linear-gradient(
+      135deg,
+      oklch(0.98 0.003 65) 0%,
+      oklch(0.96 0.004 62) 100%
+    );
     border: 1px solid oklch(0.85 0.008 65 / 70%);
     box-shadow:
       0 4px 6px -1px oklch(0.7 0.22 50 / 8%),
@@ -259,19 +296,25 @@
 
   /* Enhanced primary button with original bright orange */
   .bg-primary {
-    background:
-      linear-gradient(135deg, oklch(0.7 0.22 50) 0%, oklch(0.67 0.24 47) 100%);
+    background: linear-gradient(
+      135deg,
+      oklch(0.7 0.22 50) 0%,
+      oklch(0.67 0.24 47) 100%
+    );
     box-shadow:
       0 4px 14px 0 oklch(0.7 0.22 50 / 25%),
-      inset 0 1px 0 oklch(0.77 0.20 53 / 50%);
+      inset 0 1px 0 oklch(0.77 0.2 53 / 50%);
   }
 
   .bg-primary:hover {
-    background:
-      linear-gradient(135deg, oklch(0.73 0.24 48) 0%, oklch(0.70 0.25 45) 100%);
+    background: linear-gradient(
+      135deg,
+      oklch(0.73 0.24 48) 0%,
+      oklch(0.7 0.25 45) 100%
+    );
     box-shadow:
       0 6px 20px 0 oklch(0.7 0.22 50 / 35%),
-      inset 0 1px 0 oklch(0.80 0.22 56 / 60%);
+      inset 0 1px 0 oklch(0.8 0.22 56 / 60%);
   }
 
   /* Enhanced borders with subtle definition */
@@ -282,8 +325,11 @@
 
   /* Grid pattern with more noticeable visibility */
   .grid-pattern {
-    background-image:
-      radial-gradient(circle at 1px 1px, oklch(0.7 0.22 50 / 12%) 1px, transparent 0);
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      oklch(0.7 0.22 50 / 12%) 1px,
+      transparent 0
+    );
     background-size: 20px 20px;
   }
 
@@ -306,16 +352,22 @@
 
   /* Enhanced secondary button effects */
   .bg-secondary {
-    background:
-      linear-gradient(135deg, oklch(0.90 0.008 65) 0%, oklch(0.88 0.009 62) 100%);
+    background: linear-gradient(
+      135deg,
+      oklch(0.9 0.008 65) 0%,
+      oklch(0.88 0.009 62) 100%
+    );
     box-shadow:
       0 2px 4px 0 oklch(0.48 0.14 42 / 8%),
       inset 0 1px 0 oklch(1 0 0 / 60%);
   }
 
   .bg-secondary:hover {
-    background:
-      linear-gradient(135deg, oklch(0.92 0.009 63) 0%, oklch(0.90 0.010 60) 100%);
+    background: linear-gradient(
+      135deg,
+      oklch(0.92 0.009 63) 0%,
+      oklch(0.9 0.01 60) 100%
+    );
     box-shadow:
       0 4px 8px 0 oklch(0.48 0.14 42 / 12%),
       inset 0 1px 0 oklch(1 0 0 / 70%);
@@ -323,8 +375,11 @@
 
   /* Enhanced accent elements */
   .bg-accent {
-    background:
-      linear-gradient(135deg, oklch(0.92 0.006 65) 0%, oklch(0.90 0.007 62) 100%);
+    background: linear-gradient(
+      135deg,
+      oklch(0.92 0.006 65) 0%,
+      oklch(0.9 0.007 62) 100%
+    );
     box-shadow:
       0 2px 4px 0 oklch(0.56 0.22 32 / 6%),
       inset 0 1px 0 oklch(1 0 0 / 50%);
@@ -336,31 +391,35 @@
   .dark [data-slot="badge"] {
     /* Default badges - vibrant orange for impact */
     &[class*="bg-primary"] {
-      background: linear-gradient(135deg, oklch(0.72 0.18 58) 0%, oklch(0.68 0.20 55) 100%) !important;
-      color: oklch(0.19 0.015 258) !important;
-      border-color: transparent !important;
-      box-shadow: 0 2px 8px oklch(0.72 0.18 58 / 25%) !important;
+      background: linear-gradient(
+        135deg,
+        oklch(0.72 0.18 58) 0%,
+        oklch(0.68 0.2 55) 100%
+      );
+      color: oklch(0.19 0.015 258);
+      border-color: transparent;
+      box-shadow: 0 2px 8px oklch(0.72 0.18 58 / 25%);
     }
 
     /* Secondary badges - better contrast */
     &[class*="bg-secondary"] {
-      background: oklch(0.28 0.04 35) !important;
-      color: oklch(0.95 0.005 85) !important;
-      border-color: transparent !important;
+      background: oklch(0.28 0.04 35);
+      color: oklch(0.95 0.005 85);
+      border-color: transparent;
     }
 
     /* Outline badges - proper text color */
     &[class*="outline"] {
-      color: oklch(0.88 0.02 65) !important;
-      border-color: oklch(0.35 0.04 45 / 60%) !important;
-      background: transparent !important;
+      color: oklch(0.88 0.02 65);
+      border-color: oklch(0.35 0.04 45 / 60%);
+      background: transparent;
     }
 
     /* Destructive badges */
     &[class*="bg-destructive"] {
-      background: oklch(0.58 0.24 32) !important;
-      color: oklch(0.95 0.005 85) !important;
-      border-color: transparent !important;
+      background: oklch(0.58 0.24 32);
+      color: oklch(0.95 0.005 85);
+      border-color: transparent;
     }
   }
 
@@ -369,51 +428,51 @@
     /* Icons in cards and UI elements */
     svg {
       &[class*="text-muted-foreground"] {
-        color: oklch(0.70 0.02 50) !important;
+        color: oklch(0.7 0.02 50);
       }
 
       &[class*="text-foreground"] {
-        color: oklch(0.95 0.005 85) !important;
+        color: oklch(0.95 0.005 85);
       }
 
       /* Icons in secondary backgrounds should be more visible */
       &[class*="text-secondary-foreground"] {
-        color: oklch(0.95 0.005 85) !important;
+        color: oklch(0.95 0.005 85);
       }
     }
 
     /* Fix card icon containers */
     .bg-secondary {
       svg {
-        color: oklch(0.95 0.005 85) !important;
+        color: oklch(0.95 0.005 85);
       }
     }
 
     /* Fix text readability on various backgrounds */
     .text-muted-foreground {
-      color: oklch(0.70 0.02 50) !important;
+      color: oklch(0.7 0.02 50);
     }
 
     .text-secondary-foreground {
-      color: oklch(0.95 0.005 85) !important;
+      color: oklch(0.95 0.005 85);
     }
 
     /* Ensure all badges have proper contrast */
     .bg-secondary .text-secondary-foreground {
-      color: oklch(0.95 0.005 85) !important;
+      color: oklch(0.95 0.005 85);
     }
 
     /* Fix specific badge text issues */
     [data-slot="badge"].bg-secondary {
-      background: oklch(0.28 0.04 35) !important;
-      color: oklch(0.95 0.005 85) !important;
+      background: oklch(0.28 0.04 35);
+      color: oklch(0.95 0.005 85);
     }
 
     /* Fix hover states for badges */
     [data-slot="badge"]:hover {
       &.bg-secondary {
-        background: oklch(0.32 0.05 32) !important;
-        color: oklch(0.95 0.005 85) !important;
+        background: oklch(0.32 0.05 32);
+        color: oklch(0.95 0.005 85);
       }
     }
   }

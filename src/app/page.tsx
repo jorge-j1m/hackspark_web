@@ -1,5 +1,15 @@
-import { Code, Heart, TrendingUp, Zap, Rocket, Star, Users, Gauge } from "lucide-react";
+import {
+  Code,
+  Gauge,
+  Heart,
+  Rocket,
+  Star,
+  TrendingUp,
+  Users,
+  Zap,
+} from "lucide-react";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,7 +20,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ThemeToggle } from "@/components/theme-toggle";
 import NavLogo from "@/components/ui/nav-logo";
 
 export default function HomePage() {
@@ -102,7 +111,9 @@ export default function HomePage() {
               <div className="w-14 h-14 bg-yellow-500/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-500/20 transition-colors">
                 <Star className="w-7 h-7 text-yellow-500" />
               </div>
-              <div className="text-3xl font-bold mb-2 text-yellow-600 dark:text-yellow-400">98%</div>
+              <div className="text-3xl font-bold mb-2 text-yellow-600 dark:text-yellow-400">
+                98%
+              </div>
               <div className="text-sm text-muted-foreground">
                 Developer satisfaction
               </div>
@@ -114,7 +125,9 @@ export default function HomePage() {
               <div className="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-500/20 transition-colors">
                 <Users className="w-7 h-7 text-blue-500" />
               </div>
-              <div className="text-3xl font-bold mb-2 text-blue-600 dark:text-blue-400">15k+</div>
+              <div className="text-3xl font-bold mb-2 text-blue-600 dark:text-blue-400">
+                15k+
+              </div>
               <div className="text-sm text-muted-foreground">
                 Active developers
               </div>
@@ -128,7 +141,9 @@ export default function HomePage() {
               <div className="w-14 h-14 bg-green-500/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-green-500/20 transition-colors">
                 <Gauge className="w-7 h-7 text-green-500" />
               </div>
-              <div className="text-3xl font-bold mb-2 text-green-600 dark:text-green-400">3x</div>
+              <div className="text-3xl font-bold mb-2 text-green-600 dark:text-green-400">
+                3x
+              </div>
               <div className="text-sm text-muted-foreground">Faster to</div>
               <div className="text-xs text-muted-foreground mt-1">
                 prototype + deploy

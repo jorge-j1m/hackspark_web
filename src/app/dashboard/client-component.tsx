@@ -2,13 +2,19 @@
 
 import {
   BookOpen,
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
+  Circle,
   Code,
   Heart,
   Lightbulb,
   LogOut,
   Plus,
+  Rocket,
   Settings,
   Star,
+  Target,
   TrendingUp,
   User,
   Users,
@@ -48,6 +54,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import NavLogo from "@/components/ui/nav-logo";
 import { Progress } from "@/components/ui/progress";
 import {
   Select,
@@ -60,14 +67,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserDetails } from "@/hooks/use-user-details";
 import { addUserTechnology } from "@/lib/api-client";
 import { type UserProject, UserProjectSchema } from "@/types/users";
-import NavLogo from "@/components/ui/nav-logo";
 
 export default function DashboardComponent() {
-  const { data: userDetails, isLoading, refetch } = useUserDetails();
+  const { data: userDetails, isLoading, refetch }: any = useUserDetails();
   const { projects } = userDetails || {};
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isProgressExpanded, setIsProgressExpanded] = useState(false);
   const [formData, setFormData] = useState({
     tag_slug: "",
     skill_level: "",
@@ -272,6 +279,188 @@ export default function DashboardComponent() {
           </div>
 
           {/* Quick Stats */}
+          {/* Collapsible Progress Section */}
+          <div className="mb-6">
+            <Card className="border-border/50">
+              <CardContent className="p-4">
+                <button
+                  type="button"
+                  onClick={() => setIsProgressExpanded(!isProgressExpanded)}
+                  className="w-full flex items-center justify-between text-left"
+                >
+                  <div className="flex items-center gap-4 flex-1">
+                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Target className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-lg font-semibold">Your Progress</h3>
+                        <span className="text-sm font-medium text-primary">
+                          {Math.round(
+                            (((userDetails?.projects?.length > 0 ? 1 : 0) +
+                              (userDetails?.technologies?.length >= 3 ? 1 : 0) +
+                              (userDetails?.projects?.some(
+                                (p: any) => p.like_count > 0,
+                              )
+                                ? 1
+                                : 0)) /
+                              3) *
+                              100,
+                          )}
+                          % Complete
+                        </span>
+                      </div>
+                      <div className="w-full bg-secondary rounded-full h-3">
+                        <div
+                          className="bg-gradient-to-r from-primary to-primary/80 h-3 rounded-full transition-all duration-500"
+                          style={{
+                            width: `${
+                              (((userDetails?.projects?.length > 0 ? 1 : 0) +
+                                (userDetails?.technologies?.length >= 3
+                                  ? 1
+                                  : 0) +
+                                (userDetails?.projects?.some(
+                                  (p: any) => p.like_count > 0,
+                                )
+                                  ? 1
+                                  : 0)) /
+                                3) *
+                              100
+                            }%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {isProgressExpanded ? (
+                    <ChevronUp className="w-5 h-5 text-muted-foreground" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                  )}
+                </button>
+
+                {isProgressExpanded && (
+                  <div className="mt-4 pt-4 border-t border-border/50">
+                    <div className="space-y-3">
+                      {/* Create First Project */}
+                      <div
+                        className={`flex items-center justify-between p-3 rounded-lg border transition-all ${
+                          userDetails?.projects?.length > 0
+                            ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800"
+                            : "bg-secondary/50 border-border hover:bg-secondary/80"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          {userDetails?.projects?.length > 0 ? (
+                            <CheckCircle className="w-5 h-5 text-green-500" />
+                          ) : (
+                            <Circle className="w-5 h-5 text-muted-foreground" />
+                          )}
+                          <div>
+                            <p className="font-medium">
+                              Create your first project
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {userDetails?.projects?.length > 0
+                                ? `✅ Completed - ${userDetails?.projects?.length} project${userDetails?.projects?.length > 1 ? "s" : ""} created`
+                                : "Start building something amazing"}
+                            </p>
+                          </div>
+                        </div>
+                        {!userDetails?.projects?.length && (
+                          <Button size="sm" asChild>
+                            <Link href="/create">
+                              <Rocket className="w-4 h-4 mr-2" />
+                              Create
+                            </Link>
+                          </Button>
+                        )}
+                      </div>
+
+                      {/* Add Technologies */}
+                      <div
+                        className={`flex items-center justify-between p-3 rounded-lg border transition-all ${
+                          userDetails?.technologies?.length >= 3
+                            ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800"
+                            : "bg-secondary/50 border-border hover:bg-secondary/80"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          {userDetails?.technologies?.length >= 3 ? (
+                            <CheckCircle className="w-5 h-5 text-green-500" />
+                          ) : (
+                            <Circle className="w-5 h-5 text-muted-foreground" />
+                          )}
+                          <div>
+                            <p className="font-medium">Add 3+ technologies</p>
+                            <p className="text-xs text-muted-foreground">
+                              {userDetails?.technologies?.length >= 3
+                                ? `✅ Completed - ${userDetails?.technologies?.length} technologies added`
+                                : `${userDetails?.technologies?.length || 0}/3 technologies added`}
+                            </p>
+                          </div>
+                        </div>
+                        {userDetails?.technologies?.length < 3 && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setIsModalOpen(true)}
+                          >
+                            <Plus className="w-4 h-4 mr-2" />
+                            Add Tech
+                          </Button>
+                        )}
+                      </div>
+
+                      {/* Get First Star/Like */}
+                      <div
+                        className={`flex items-center justify-between p-3 rounded-lg border transition-all ${
+                          userDetails?.projects?.some(
+                            (p: any) => p.like_count > 0,
+                          )
+                            ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800"
+                            : "bg-secondary/50 border-border hover:bg-secondary/80"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          {userDetails?.projects?.some(
+                            (p: any) => p.like_count > 0,
+                          ) ? (
+                            <CheckCircle className="w-5 h-5 text-green-500" />
+                          ) : (
+                            <Circle className="w-5 h-5 text-muted-foreground" />
+                          )}
+                          <div>
+                            <p className="font-medium">
+                              Get your first project star
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {userDetails?.projects?.some(
+                                (p: any) => p.like_count > 0,
+                              )
+                                ? `✅ Completed - Projects have ${userDetails?.projects?.reduce((acc: any, p: any) => acc + p.like_count, 0)} total likes`
+                                : "Share your project to get community recognition"}
+                            </p>
+                          </div>
+                        </div>
+                        {!userDetails?.projects?.some(
+                          (p: any) => p.like_count > 0,
+                        ) &&
+                          userDetails?.projects?.length > 0 && (
+                            <Button size="sm" variant="outline" asChild>
+                              <Link href="/explore">
+                                <Star className="w-4 h-4 mr-2" />
+                                Share
+                              </Link>
+                            </Button>
+                          )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <Card className="border-border/50">
               <CardContent className="p-4">
@@ -297,10 +486,7 @@ export default function DashboardComponent() {
                     <Heart className="w-5 h-5 text-red-500" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold">
-                      {/* {countProjectLikes(userDetails?.projects || [])} */}
-                      123
-                    </div>
+                    <div className="text-2xl font-bold">123</div>
                     <div className="text-sm text-muted-foreground">
                       Total Likes
                     </div>
@@ -365,11 +551,11 @@ export default function DashboardComponent() {
                   {projects && projects.length > 0 ? (
                     projects
                       .sort(
-                        (a, b) =>
+                        (a: any, b: any) =>
                           new Date(b.added_at).getTime() -
                           new Date(a.added_at).getTime(),
                       )
-                      .map((project) => (
+                      .map((project: any) => (
                         <Card
                           key={project.id}
                           className="border-border/50 hover:border-border transition-colors"
@@ -654,7 +840,7 @@ export default function DashboardComponent() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {userDetails?.technologies?.toReversed().map((tech) => (
+                {userDetails?.technologies?.toReversed().map((tech: any) => (
                   <div key={tech.name} className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
                       <span className="font-medium">{tech.name}</span>

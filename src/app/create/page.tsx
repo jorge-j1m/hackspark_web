@@ -30,11 +30,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import NavLogo from "@/components/ui/nav-logo";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { createApiClient } from "@/lib/api-client";
-import NavLogo from "@/components/ui/nav-logo";
 import { type CreateProjectData, ProjectSchema } from "@/types";
 
 export default function CreateProjectPage() {
