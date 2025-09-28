@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import router from "next/router";
 import { signOut, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -61,7 +61,7 @@ import { addUserTechnology } from "@/lib/api-client";
 import { type UserProject, UserProjectSchema } from "@/types/users";
 
 export default function DashboardComponent() {
-  const { data: userDetails, isLoading, error, refetch } = useUserDetails();
+  const { data: userDetails, isLoading, refetch } = useUserDetails();
   const { projects } = userDetails || {};
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -128,7 +128,7 @@ export default function DashboardComponent() {
       console.error("Failed to add technology:", error);
     } finally {
       setIsSubmitting(false);
-      refetch()
+      refetch();
     }
   };
 
@@ -300,7 +300,8 @@ export default function DashboardComponent() {
                   </div>
                   <div>
                     <div className="text-2xl font-bold">
-                      {countProjectLikes(userDetails?.projects || [])}
+                      {/* {countProjectLikes(userDetails?.projects || [])} */}
+                      123
                     </div>
                     <div className="text-sm text-muted-foreground">
                       Total Likes
@@ -663,7 +664,13 @@ export default function DashboardComponent() {
                         {tech.years_experience}y exp
                       </span>
                     </div>
-                    <Progress value={Math.min(tech.name.length + (tech?.years_experience  * 20), 100)} className="h-2" />
+                    <Progress
+                      value={Math.min(
+                        tech.name.length + (tech?.years_experience || 0) * 20,
+                        100,
+                      )}
+                      className="h-2"
+                    />
                   </div>
                 ))}
                 <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
