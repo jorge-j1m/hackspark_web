@@ -45,37 +45,62 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+
+  /* Enhanced light mode using custom palette */
+  /* Background with subtle warmth using #bbb8b2 tones */
+  --background: oklch(0.95 0.005 65);
+  --foreground: oklch(0.19 0.015 258);
+
+  /* Cards with better contrast using #bbb8b2 */
+  --card: oklch(0.98 0.003 65);
+  --card-foreground: oklch(0.19 0.015 258);
+
+  /* Popovers with slight variation */
+  --popover: oklch(0.97 0.004 65);
+  --popover-foreground: oklch(0.19 0.015 258);
+
+  /* Primary using original bright orange */
   --primary: oklch(0.7 0.22 50);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --primary-foreground: oklch(0.98 0.003 65);
+
+  /* Secondary using #bc5d2e for depth */
+  --secondary: oklch(0.90 0.008 65);
+  --secondary-foreground: oklch(0.48 0.14 42);
+
+  /* Muted using #bbb8b2 */
+  --muted: oklch(0.88 0.006 65);
+  --muted-foreground: oklch(0.45 0.015 258);
+
+  /* Accent using bright #f34213 */
+  --accent: oklch(0.92 0.006 65);
+  --accent-foreground: oklch(0.56 0.22 32);
+
+  /* Destructive using #f34213 */
+  --destructive: oklch(0.56 0.22 32);
+
+  /* Borders with subtle color */
+  --border: oklch(0.85 0.008 65 / 60%);
+  --input: oklch(0.88 0.006 65);
+
+  /* Ring using original bright orange */
+  --ring: oklch(0.7 0.22 50);
+
+  /* Chart colors using original bright palette */
+  --chart-1: oklch(0.7 0.22 50); /* original bright orange */
+  --chart-2: oklch(0.56 0.22 32); /* bright #f34213 */
+  --chart-3: oklch(0.48 0.14 42); /* bright #bc5d2e */
+  --chart-4: oklch(0.73 0.008 65); /* #bbb8b2 */
+  --chart-5: oklch(0.35 0.02 258); /* lighter #2e2e3a */
+
+  /* Sidebar with original bright orange */
+  --sidebar: oklch(0.96 0.004 65);
+  --sidebar-foreground: oklch(0.19 0.015 258);
+  --sidebar-primary: oklch(0.7 0.22 50);
+  --sidebar-primary-foreground: oklch(0.98 0.003 65);
+  --sidebar-accent: oklch(0.90 0.008 65);
+  --sidebar-accent-foreground: oklch(0.48 0.14 42);
+  --sidebar-border: oklch(0.85 0.008 65 / 50%);
+  --sidebar-ring: oklch(0.7 0.22 50);
 }
 
 .dark {
@@ -208,5 +233,188 @@
     background: oklch(0.19 0.015 258 / 92%);
     border-bottom: 1px solid oklch(0.73 0.008 65 / 25%);
     box-shadow: 0 8px 32px oklch(0.19 0.015 258 / 15%);
+  }
+
+  /* ========== STUNNING LIGHT MODE VISUAL EFFECTS ========== */
+
+  /* Enhanced light mode body with more noticeable gradients */
+  body {
+    background:
+      radial-gradient(circle at 20% 80%, oklch(0.7 0.22 50 / 12%) 0%, transparent 50%), /* original bright orange */
+      radial-gradient(circle at 80% 20%, oklch(0.56 0.22 32 / 10%) 0%, transparent 50%), /* bright #f34213 */
+      radial-gradient(circle at 40% 40%, oklch(0.48 0.14 42 / 8%) 0%, transparent 50%), /* bright #bc5d2e */
+      oklch(0.95 0.005 65); /* #bbb8b2 base */
+  }
+
+  /* Enhanced card effects with depth and gradients */
+  .bg-card {
+    background:
+      linear-gradient(135deg, oklch(0.98 0.003 65) 0%, oklch(0.96 0.004 62) 100%);
+    border: 1px solid oklch(0.85 0.008 65 / 70%);
+    box-shadow:
+      0 4px 6px -1px oklch(0.7 0.22 50 / 8%),
+      0 2px 4px -1px oklch(0.7 0.22 50 / 5%),
+      inset 0 1px 0 oklch(1 0 0 / 80%);
+  }
+
+  /* Enhanced primary button with original bright orange */
+  .bg-primary {
+    background:
+      linear-gradient(135deg, oklch(0.7 0.22 50) 0%, oklch(0.67 0.24 47) 100%);
+    box-shadow:
+      0 4px 14px 0 oklch(0.7 0.22 50 / 25%),
+      inset 0 1px 0 oklch(0.77 0.20 53 / 50%);
+  }
+
+  .bg-primary:hover {
+    background:
+      linear-gradient(135deg, oklch(0.73 0.24 48) 0%, oklch(0.70 0.25 45) 100%);
+    box-shadow:
+      0 6px 20px 0 oklch(0.7 0.22 50 / 35%),
+      inset 0 1px 0 oklch(0.80 0.22 56 / 60%);
+  }
+
+  /* Enhanced borders with subtle definition */
+  .border-border {
+    border-color: oklch(0.85 0.008 65 / 60%);
+    box-shadow: 0 0 0 1px oklch(0.88 0.006 65 / 8%);
+  }
+
+  /* Grid pattern with more noticeable visibility */
+  .grid-pattern {
+    background-image:
+      radial-gradient(circle at 1px 1px, oklch(0.7 0.22 50 / 12%) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+
+  /* Enhanced focus states with original bright orange glow */
+  *:focus-visible {
+    outline: 2px solid oklch(0.7 0.22 50);
+    outline-offset: 2px;
+    box-shadow:
+      0 0 0 4px oklch(0.7 0.22 50 / 20%),
+      0 0 20px oklch(0.7 0.22 50 / 12%);
+  }
+
+  /* Header backdrop with enhanced glass effect */
+  .backdrop-blur-sm {
+    backdrop-filter: blur(8px) saturate(180%);
+    background: oklch(0.95 0.005 65 / 85%);
+    border-bottom: 1px solid oklch(0.85 0.008 65 / 60%);
+    box-shadow: 0 8px 32px oklch(0.7 0.22 50 / 5%);
+  }
+
+  /* Enhanced secondary button effects */
+  .bg-secondary {
+    background:
+      linear-gradient(135deg, oklch(0.90 0.008 65) 0%, oklch(0.88 0.009 62) 100%);
+    box-shadow:
+      0 2px 4px 0 oklch(0.48 0.14 42 / 8%),
+      inset 0 1px 0 oklch(1 0 0 / 60%);
+  }
+
+  .bg-secondary:hover {
+    background:
+      linear-gradient(135deg, oklch(0.92 0.009 63) 0%, oklch(0.90 0.010 60) 100%);
+    box-shadow:
+      0 4px 8px 0 oklch(0.48 0.14 42 / 12%),
+      inset 0 1px 0 oklch(1 0 0 / 70%);
+  }
+
+  /* Enhanced accent elements */
+  .bg-accent {
+    background:
+      linear-gradient(135deg, oklch(0.92 0.006 65) 0%, oklch(0.90 0.007 62) 100%);
+    box-shadow:
+      0 2px 4px 0 oklch(0.56 0.22 32 / 6%),
+      inset 0 1px 0 oklch(1 0 0 / 50%);
+  }
+
+  /* ========== DARK MODE BADGE/TAG FIXES ========== */
+
+  /* Fix badge readability in dark mode */
+  .dark [data-slot="badge"] {
+    /* Default badges - vibrant orange for impact */
+    &[class*="bg-primary"] {
+      background: linear-gradient(135deg, oklch(0.72 0.18 58) 0%, oklch(0.68 0.20 55) 100%) !important;
+      color: oklch(0.19 0.015 258) !important;
+      border-color: transparent !important;
+      box-shadow: 0 2px 8px oklch(0.72 0.18 58 / 25%) !important;
+    }
+
+    /* Secondary badges - better contrast */
+    &[class*="bg-secondary"] {
+      background: oklch(0.28 0.04 35) !important;
+      color: oklch(0.95 0.005 85) !important;
+      border-color: transparent !important;
+    }
+
+    /* Outline badges - proper text color */
+    &[class*="outline"] {
+      color: oklch(0.88 0.02 65) !important;
+      border-color: oklch(0.35 0.04 45 / 60%) !important;
+      background: transparent !important;
+    }
+
+    /* Destructive badges */
+    &[class*="bg-destructive"] {
+      background: oklch(0.58 0.24 32) !important;
+      color: oklch(0.95 0.005 85) !important;
+      border-color: transparent !important;
+    }
+  }
+
+  /* Fix icon and text visibility in dark mode */
+  .dark {
+    /* Icons in cards and UI elements */
+    svg {
+      &[class*="text-muted-foreground"] {
+        color: oklch(0.70 0.02 50) !important;
+      }
+
+      &[class*="text-foreground"] {
+        color: oklch(0.95 0.005 85) !important;
+      }
+
+      /* Icons in secondary backgrounds should be more visible */
+      &[class*="text-secondary-foreground"] {
+        color: oklch(0.95 0.005 85) !important;
+      }
+    }
+
+    /* Fix card icon containers */
+    .bg-secondary {
+      svg {
+        color: oklch(0.95 0.005 85) !important;
+      }
+    }
+
+    /* Fix text readability on various backgrounds */
+    .text-muted-foreground {
+      color: oklch(0.70 0.02 50) !important;
+    }
+
+    .text-secondary-foreground {
+      color: oklch(0.95 0.005 85) !important;
+    }
+
+    /* Ensure all badges have proper contrast */
+    .bg-secondary .text-secondary-foreground {
+      color: oklch(0.95 0.005 85) !important;
+    }
+
+    /* Fix specific badge text issues */
+    [data-slot="badge"].bg-secondary {
+      background: oklch(0.28 0.04 35) !important;
+      color: oklch(0.95 0.005 85) !important;
+    }
+
+    /* Fix hover states for badges */
+    [data-slot="badge"]:hover {
+      &.bg-secondary {
+        background: oklch(0.32 0.05 32) !important;
+        color: oklch(0.95 0.005 85) !important;
+      }
+    }
   }
 }
