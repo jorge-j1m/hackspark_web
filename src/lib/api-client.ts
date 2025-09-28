@@ -171,7 +171,7 @@ export async function addUserTechnology(
     skill_level: "beginner" | "intermediate" | "expert";
     years_experience: number;
   },
-  sessionId: string
+  sessionId: string,
 ): Promise<void> {
   const client = createApiClient(sessionId);
   await client.post("/users/technologies", z.null(), data);

@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,8 +33,11 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
+import { createApiClient } from "@/lib/api-client";
+import { type CreateProjectData, ProjectSchema } from "@/types";
 
 export default function CreateProjectPage() {
+  const { data: session } = useSession();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedTechnologies, setSelectedTechnologies] = useState<string[]>(
     [],
@@ -178,6 +182,33 @@ export default function CreateProjectPage() {
   };
 
   const progress = (currentStep / 4) * 100;
+
+  const handleSubmit = async () => {
+    if (!session?.user?.sessionId) {
+      console.error("No session found");
+      return;
+    }
+
+    const projectData: CreateProjectData = {
+      name: projectTitle,
+      description: projectDescription,
+      tags: selectedTechnologies,
+    };
+
+    try {
+      const apiClient = createApiClient(session.user.sessionId);
+      const project = await apiClient.post(
+        "/projects",
+        ProjectSchema,
+        projectData,
+      );
+      console.log("Project created successfully:", project);
+      // TODO: Handle success (redirect, show success message, etc.)
+    } catch (error) {
+      console.error("Failed to create project:", error);
+      // TODO: Handle error (show error message, etc.)
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background grid-pattern">
@@ -452,8 +483,8 @@ export default function CreateProjectPage() {
                   <CardHeader>
                     <CardTitle>Project Details</CardTitle>
                     <CardDescription>
-                      Enter your project information manually to get started right
-                      away
+                      Enter your project information manually to get started
+                      right away
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -480,6 +511,7 @@ export default function CreateProjectPage() {
                       <Button
                         className="flex-1"
                         disabled={!projectTitle || !projectDescription}
+                        onClick={handleSubmit}
                       >
                         <Rocket className="w-4 h-4 mr-2" />
                         Create Project
@@ -585,11 +617,15 @@ export default function CreateProjectPage() {
                         <div className="space-y-3 text-sm">
                           <div className="flex items-center gap-3 text-left">
                             <Star className="w-4 h-4 text-primary flex-shrink-0" />
-                            <span>3 custom project ideas based on your preferences</span>
+                            <span>
+                              3 custom project ideas based on your preferences
+                            </span>
                           </div>
                           <div className="flex items-center gap-3 text-left">
                             <Star className="w-4 h-4 text-primary flex-shrink-0" />
-                            <span>Detailed implementation guides and roadmaps</span>
+                            <span>
+                              Detailed implementation guides and roadmaps
+                            </span>
                           </div>
                           <div className="flex items-center gap-3 text-left">
                             <Star className="w-4 h-4 text-primary flex-shrink-0" />
@@ -597,11 +633,15 @@ export default function CreateProjectPage() {
                           </div>
                           <div className="flex items-center gap-3 text-left">
                             <Star className="w-4 h-4 text-primary flex-shrink-0" />
-                            <span>AI project assistant throughout development</span>
+                            <span>
+                              AI project assistant throughout development
+                            </span>
                           </div>
                           <div className="flex items-center gap-3 text-left">
                             <Star className="w-4 h-4 text-primary flex-shrink-0" />
-                            <span>Technology recommendations and best practices</span>
+                            <span>
+                              Technology recommendations and best practices
+                            </span>
                           </div>
                         </div>
 
@@ -611,7 +651,8 @@ export default function CreateProjectPage() {
                             Upgrade to Premium - $9/month
                           </Button>
                           <p className="text-xs text-muted-foreground mt-3">
-                            Join 10,000+ developers building better projects with AI
+                            Join 10,000+ developers building better projects
+                            with AI
                           </p>
                         </div>
                       </CardContent>
@@ -636,7 +677,10 @@ export default function CreateProjectPage() {
 
                       <div className="space-y-3">
                         {mockAIProjects.slice(0, 3).map((project) => (
-                          <Card key={project.title} className="border-border/50">
+                          <Card
+                            key={project.title}
+                            className="border-border/50"
+                          >
                             <CardHeader className="pb-3">
                               <div className="flex items-center gap-2 mb-2">
                                 <CardTitle className="text-base">
@@ -675,25 +719,35 @@ export default function CreateProjectPage() {
                                   Technologies
                                 </Label>
                                 <div className="flex flex-wrap gap-1 mt-1">
-                                  {project.technologies.slice(0, 3).map((tech) => (
-                                    <Badge
-                                      key={tech}
-                                      variant="secondary"
-                                      className="text-xs"
-                                    >
-                                      {tech}
-                                    </Badge>
-                                  ))}
+                                  {project.technologies
+                                    .slice(0, 3)
+                                    .map((tech) => (
+                                      <Badge
+                                        key={tech}
+                                        variant="secondary"
+                                        className="text-xs"
+                                      >
+                                        {tech}
+                                      </Badge>
+                                    ))}
                                 </div>
                               </div>
                             </CardHeader>
                             <CardContent className="pt-0">
                               <div className="flex gap-2">
-                                <Button size="sm" className="flex-1" disabled={!isPremium}>
+                                <Button
+                                  size="sm"
+                                  className="flex-1"
+                                  disabled={!isPremium}
+                                >
                                   <Rocket className="w-3 h-3 mr-1" />
                                   Start Project
                                 </Button>
-                                <Button variant="outline" size="sm" disabled={!isPremium}>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  disabled={!isPremium}
+                                >
                                   Save
                                 </Button>
                               </div>

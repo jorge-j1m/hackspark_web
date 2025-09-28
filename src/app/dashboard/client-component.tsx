@@ -60,7 +60,7 @@ import { UserProject, UserProjectSchema } from "@/types/users";
 import { addUserTechnology } from "@/lib/api-client";
 
 export default function DashboardComponent() {
-  const { data: userDetails, isLoading, error } = useUserDetails();
+  const { data: userDetails, isLoading } = useUserDetails();
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -104,11 +104,17 @@ export default function DashboardComponent() {
     setIsSubmitting(true);
 
     try {
-      await addUserTechnology({
-        tag_slug: formData.tag_slug,
-        skill_level: formData.skill_level as "beginner" | "intermediate" | "expert",
-        years_experience: Number(formData.years_experience),
-      }, session.user.sessionId);
+      await addUserTechnology(
+        {
+          tag_slug: formData.tag_slug,
+          skill_level: formData.skill_level as
+            | "beginner"
+            | "intermediate"
+            | "expert",
+          years_experience: Number(formData.years_experience),
+        },
+        session.user.sessionId,
+      );
 
       setIsModalOpen(false);
       setFormData({

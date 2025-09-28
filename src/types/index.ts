@@ -61,3 +61,35 @@ export const SignupResponseSchema = ApiResponseSchema(UserSchema);
 
 export type UserInfoResponse = ApiResponse<User>;
 export const UserInfoResponseSchema = ApiResponseSchema(UserSchema);
+
+// Project types
+export const ProjectOwnerSchema = z.object({
+  id: z.string(),
+  username: z.string(),
+});
+
+export const ProjectSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  like_count: z.number(),
+  star_count: z.number(),
+  tags: z.array(z.string()),
+  owner: ProjectOwnerSchema,
+  created_at: z.string(),
+  updated_at: z.string(),
+});
+
+export type ProjectOwner = z.infer<typeof ProjectOwnerSchema>;
+export type Project = z.infer<typeof ProjectSchema>;
+
+export const CreateProjectDataSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  tags: z.array(z.string()),
+});
+
+export type CreateProjectData = z.infer<typeof CreateProjectDataSchema>;
+
+export type CreateProjectResponse = ApiResponse<Project>;
+export const CreateProjectResponseSchema = ApiResponseSchema(ProjectSchema);
