@@ -1,3 +1,5 @@
+"use client";
+
 import {
   BookOpen,
   Code,
@@ -22,8 +24,31 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useUserDetails } from "@/hooks/use-user-details";
 
 export default function DashboardComponent() {
+  const { data: userDetails, isLoading, error } = useUserDetails();
+
+  // Get user's initials for avatar
+  const userInitials = userDetails
+    ? `${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()
+    : "JD";
+
+  // Get user's first name
+  const firstName = userDetails?.firstName || "John";
+
+  // Simple loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background grid-pattern flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-2 text-muted-foreground">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background grid-pattern">
       {/* Header */}
@@ -60,7 +85,7 @@ export default function DashboardComponent() {
               <Settings className="w-4 h-4" />
             </Button>
             <Avatar className="w-8 h-8">
-              <AvatarFallback>JD</AvatarFallback>
+              <AvatarFallback>{userInitials}</AvatarFallback>
             </Avatar>
           </div>
         </div>
@@ -71,7 +96,9 @@ export default function DashboardComponent() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Welcome back, John!</h1>
+              <h1 className="text-3xl font-bold mb-2">
+                Welcome back, {firstName}!
+              </h1>
               <p className="text-muted-foreground">
                 Ready to spark some innovation today?
               </p>

@@ -93,6 +93,8 @@ export class ApiClient {
       const parsed = responseSchema.safeParse(json);
 
       if (!parsed.success) {
+        console.log(json);
+        console.log(parsed.error);
         throw new ApiClientError(
           "Invalid API response shape.",
           response.status,

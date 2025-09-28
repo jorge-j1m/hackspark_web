@@ -21,8 +21,10 @@ export const UserDetailsSchema = z.object({
   lastName: z.string(),
   username: z.string(),
   email: z.string(),
-  technologies: z.array(UserTechSchema),
-  projects: z.array(UserProjectSchema),
+  // technologies: z.optional(z.array(UserTechSchema)), these may be null
+  // projects: z.optional(z.array(UserProjectSchema)),
+  technologies: z.array(UserTechSchema).optional(),
+  projects: z.array(UserProjectSchema).optional(),
 });
 
 export type UserDetails = z.infer<typeof UserDetailsSchema>;
