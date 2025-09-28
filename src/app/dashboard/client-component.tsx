@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   BookOpen,
   Code,
@@ -17,6 +16,7 @@ import {
 import Link from "next/link";
 import router from "next/router";
 import { signOut } from "next-auth/react";
+import { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -46,6 +46,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectContent,
@@ -53,7 +54,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserDetails } from "@/hooks/use-user-details";
 
@@ -63,7 +63,7 @@ export default function DashboardComponent() {
   const [formData, setFormData] = useState({
     tag_slug: "",
     skill_level: "",
-    years_experience: ""
+    years_experience: "",
   });
 
   // Get user's initials for avatar
@@ -76,16 +76,16 @@ export default function DashboardComponent() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSelectChange = (value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      skill_level: value
+      skill_level: value,
     }));
   };
 
@@ -96,7 +96,7 @@ export default function DashboardComponent() {
     setFormData({
       tag_slug: "",
       skill_level: "",
-      years_experience: ""
+      years_experience: "",
     });
   };
 
@@ -635,7 +635,8 @@ export default function DashboardComponent() {
                     <DialogHeader>
                       <DialogTitle>Add New Technology</DialogTitle>
                       <DialogDescription>
-                        Add a new technology to your profile. Fill in the details below.
+                        Add a new technology to your profile. Fill in the
+                        details below.
                       </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleSubmit}>
@@ -658,19 +659,28 @@ export default function DashboardComponent() {
                           <Label htmlFor="skill_level" className="text-right">
                             Skill Level
                           </Label>
-                          <Select value={formData.skill_level} onValueChange={handleSelectChange} required>
+                          <Select
+                            value={formData.skill_level}
+                            onValueChange={handleSelectChange}
+                            required
+                          >
                             <SelectTrigger className="col-span-3">
                               <SelectValue placeholder="Select skill level" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="beginner">Beginner</SelectItem>
-                              <SelectItem value="intermediate">Intermediate</SelectItem>
+                              <SelectItem value="intermediate">
+                                Intermediate
+                              </SelectItem>
                               <SelectItem value="expert">Expert</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                          <Label htmlFor="years_experience" className="text-right">
+                          <Label
+                            htmlFor="years_experience"
+                            className="text-right"
+                          >
                             Years
                           </Label>
                           <Input
@@ -688,7 +698,11 @@ export default function DashboardComponent() {
                         </div>
                       </div>
                       <DialogFooter>
-                        <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => setIsModalOpen(false)}
+                        >
                           Cancel
                         </Button>
                         <Button type="submit">Add Technology</Button>

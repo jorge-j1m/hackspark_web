@@ -17,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "HackSpark",
-  description: "HackSpark is a community platform that inspires people to start and share side projects, connect with makers, and turn ideas into reality.",
+  description:
+    "HackSpark is a community platform that inspires people to start and share side projects, connect with makers, and turn ideas into reality.",
 };
 
 export default function RootLayout({
