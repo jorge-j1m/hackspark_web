@@ -13,6 +13,7 @@ import {
   Star,
   Target,
   Users,
+  X,
   Zap,
 } from "lucide-react";
 import Link from "next/link";
@@ -43,6 +44,7 @@ export default function CreateProjectPage() {
   const [projectTitle, setProjectTitle] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [isPremium] = useState(false); // This would come from user context
+  const [showUpsell, setShowUpsell] = useState(true);
 
   const technologies = [
     "React",
@@ -442,151 +444,238 @@ export default function CreateProjectPage() {
               </p>
             </div>
 
-            <Card className="border-border/50">
-              <CardHeader>
-                <CardTitle>Project Details</CardTitle>
-                <CardDescription>
-                  Enter your project information manually to get started right
-                  away
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <Label htmlFor="title">Project Title</Label>
-                  <Input
-                    id="title"
-                    placeholder="e.g., Smart Recipe Recommender"
-                    value={projectTitle}
-                    onChange={(e) => setProjectTitle(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    placeholder="Describe what your project does, what problem it solves, and what you'll learn..."
-                    rows={4}
-                    value={projectDescription}
-                    onChange={(e) => setProjectDescription(e.target.value)}
-                  />
-                </div>
-                <div className="flex gap-3 pt-2">
-                  <Button
-                    className="flex-1"
-                    disabled={!projectTitle || !projectDescription}
-                  >
-                    <Rocket className="w-4 h-4 mr-2" />
-                    Create Project
-                  </Button>
-                  <Button variant="outline">Save as Draft</Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="relative">
-              {/* Blur overlay for non-premium users */}
-              {!isPremium && (
-                <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 rounded-lg flex items-center justify-center">
-                  <Card className="max-w-md mx-4 border-primary/20 bg-gradient-to-br from-primary/5 to-orange-500/5">
-                    <CardHeader className="text-center">
-                      <div className="w-16 h-16 bg-gradient-to-br from-primary to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Crown className="w-8 h-8 text-white" />
-                      </div>
-                      <CardTitle className="text-xl">
-                        Unlock AI Project Ideas
-                      </CardTitle>
-                      <CardDescription className="text-base">
-                        Get personalized, AI-generated project suggestions
-                        tailored to your skills and goals
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="text-center space-y-4">
-                      <div className="space-y-2 text-sm">
-                        <div className="flex items-center gap-2 justify-center">
-                          <Star className="w-4 h-4 text-primary" />
-                          <span>3 custom project ideas</span>
-                        </div>
-                        <div className="flex items-center gap-2 justify-center">
-                          <Star className="w-4 h-4 text-primary" />
-                          <span>Detailed implementation guides</span>
-                        </div>
-                        <div className="flex items-center gap-2 justify-center">
-                          <Star className="w-4 h-4 text-primary" />
-                          <span>Difficulty & time estimates</span>
-                        </div>
-                        <div className="flex items-center gap-2 justify-center">
-                          <Star className="w-4 h-4 text-primary" />
-                          <span>AI project assistant</span>
-                        </div>
-                      </div>
-                      <Button className="w-full bg-gradient-to-r from-primary to-orange-500 hover:from-primary/90 hover:to-orange-500/90">
-                        <Crown className="w-4 h-4 mr-2" />
-                        Upgrade to Premium - $9/month
+            {/* Two Column Layout */}
+            <div className="grid lg:grid-cols-2 gap-8">
+              {/* Left Column - Project Details */}
+              <div className="space-y-6">
+                <Card className="border-border/50">
+                  <CardHeader>
+                    <CardTitle>Project Details</CardTitle>
+                    <CardDescription>
+                      Enter your project information manually to get started right
+                      away
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <Label htmlFor="title">Project Title</Label>
+                      <Input
+                        id="title"
+                        placeholder="e.g., Smart Recipe Recommender"
+                        value={projectTitle}
+                        onChange={(e) => setProjectTitle(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="description">Description</Label>
+                      <Textarea
+                        id="description"
+                        placeholder="Describe what your project does, what problem it solves, and what you'll learn..."
+                        rows={6}
+                        value={projectDescription}
+                        onChange={(e) => setProjectDescription(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex gap-3 pt-2">
+                      <Button
+                        className="flex-1"
+                        disabled={!projectTitle || !projectDescription}
+                      >
+                        <Rocket className="w-4 h-4 mr-2" />
+                        Create Project
                       </Button>
-                      <p className="text-xs text-muted-foreground">
-                        Join 10,000+ developers building better projects with AI
-                      </p>
-                    </CardContent>
-                  </Card>
-                </div>
-              )}
+                      <Button variant="outline">Save as Draft</Button>
+                    </div>
+                  </CardContent>
+                </Card>
 
-              {/* Blurred AI suggestions preview */}
-              <div className={`space-y-4 ${!isPremium ? "blur-sm" : ""}`}>
-                <div className="flex items-center gap-2 mb-4">
-                  <Sparkles className="w-5 h-5 text-primary" />
-                  <h3 className="text-lg font-semibold">
-                    AI-Generated Project Ideas
-                  </h3>
-                  <Badge variant="secondary" className="gap-1">
-                    <Lock className="w-3 h-3" />
-                    Premium
-                  </Badge>
-                </div>
+                {/* AI suggestions for premium users */}
+                {isPremium && (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-primary" />
+                      <h3 className="text-lg font-semibold">
+                        AI-Generated Project Ideas
+                      </h3>
+                    </div>
 
-                {mockAIProjects.map((project) => (
-                  <Card key={project.title} className="border-border/50 opacity-60">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <CardTitle className="text-xl">
-                              {project.title}
-                            </CardTitle>
-                            <Badge variant="outline" className="text-xs">
-                              <Sparkles className="w-3 h-3 mr-1" />
-                              AI Generated
-                            </Badge>
+                    {mockAIProjects.slice(0, 1).map((project) => (
+                      <Card key={project.title} className="border-border/50">
+                        <CardHeader>
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <CardTitle className="text-lg">
+                                  {project.title}
+                                </CardTitle>
+                                <Badge variant="outline" className="text-xs">
+                                  <Sparkles className="w-3 h-3 mr-1" />
+                                  AI Generated
+                                </Badge>
+                              </div>
+                              <CardDescription className="text-sm leading-relaxed mb-3">
+                                {project.description}
+                              </CardDescription>
+
+                              <div className="grid grid-cols-2 gap-3 mb-3 text-xs">
+                                <div>
+                                  <Label className="text-xs text-muted-foreground">
+                                    Difficulty
+                                  </Label>
+                                  <p className="text-sm font-medium">
+                                    {project.difficulty}
+                                  </p>
+                                </div>
+                                <div>
+                                  <Label className="text-xs text-muted-foreground">
+                                    Time Estimate
+                                  </Label>
+                                  <p className="text-sm font-medium">
+                                    {project.timeEstimate}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <CardDescription className="text-base leading-relaxed mb-4">
-                            {project.description}
-                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="flex gap-2">
+                            <Button size="sm" className="flex-1">
+                              <Rocket className="w-3 h-3 mr-1" />
+                              Start This Project
+                            </Button>
+                            <Button variant="outline" size="sm">
+                              Save
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-                          <div className="grid md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                              <Label className="text-xs text-muted-foreground">
-                                Difficulty
-                              </Label>
-                              <p className="text-sm font-medium">
-                                {project.difficulty}
-                              </p>
-                            </div>
-                            <div>
-                              <Label className="text-xs text-muted-foreground">
-                                Time Estimate
-                              </Label>
-                              <p className="text-sm font-medium">
-                                {project.timeEstimate}
-                              </p>
-                            </div>
-                            <div>
-                              <Label className="text-xs text-muted-foreground">
-                                Technologies
-                              </Label>
-                              <div className="flex flex-wrap gap-1 mt-1">
-                                {project.technologies
-                                  .slice(0, 3)
-                                  .map((tech) => (
+              {/* Right Column - Premium Upsell */}
+              <div className="flex flex-col">
+                <div className="sticky top-24">
+                  {/* Upsell Card */}
+                  {showUpsell && !isPremium && (
+                    <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-orange-500/5 relative">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="absolute top-2 right-2 h-6 w-6 p-0 hover:bg-background/20"
+                        onClick={() => setShowUpsell(false)}
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                      <CardHeader className="text-center">
+                        <div className="w-16 h-16 bg-gradient-to-br from-primary to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Crown className="w-8 h-8 text-white" />
+                        </div>
+                        <CardTitle className="text-xl">
+                          Unlock AI Project Ideas
+                        </CardTitle>
+                        <CardDescription className="text-base">
+                          Get personalized, AI-generated project suggestions
+                          tailored to your skills and goals
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="text-center space-y-4">
+                        <div className="space-y-3 text-sm">
+                          <div className="flex items-center gap-3 text-left">
+                            <Star className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span>3 custom project ideas based on your preferences</span>
+                          </div>
+                          <div className="flex items-center gap-3 text-left">
+                            <Star className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span>Detailed implementation guides and roadmaps</span>
+                          </div>
+                          <div className="flex items-center gap-3 text-left">
+                            <Star className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span>Difficulty & time estimates</span>
+                          </div>
+                          <div className="flex items-center gap-3 text-left">
+                            <Star className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span>AI project assistant throughout development</span>
+                          </div>
+                          <div className="flex items-center gap-3 text-left">
+                            <Star className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span>Technology recommendations and best practices</span>
+                          </div>
+                        </div>
+
+                        <div className="pt-2">
+                          <Button className="w-full bg-gradient-to-r from-primary to-orange-500 hover:from-primary/90 hover:to-orange-500/90">
+                            <Crown className="w-4 h-4 mr-2" />
+                            Upgrade to Premium - $9/month
+                          </Button>
+                          <p className="text-xs text-muted-foreground mt-3">
+                            Join 10,000+ developers building better projects with AI
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {/* AI Project Suggestions - shown when upsell is closed or user is premium */}
+                  {(!showUpsell || isPremium) && (
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="w-5 h-5 text-primary" />
+                        <h3 className="text-lg font-semibold">
+                          AI-Generated Project Ideas
+                        </h3>
+                        {!isPremium && (
+                          <Badge variant="secondary" className="gap-1 text-xs">
+                            <Lock className="w-3 h-3" />
+                            Premium
+                          </Badge>
+                        )}
+                      </div>
+
+                      <div className="space-y-3">
+                        {mockAIProjects.slice(0, 3).map((project) => (
+                          <Card key={project.title} className="border-border/50">
+                            <CardHeader className="pb-3">
+                              <div className="flex items-center gap-2 mb-2">
+                                <CardTitle className="text-base">
+                                  {project.title}
+                                </CardTitle>
+                                <Badge variant="outline" className="text-xs">
+                                  <Sparkles className="w-3 h-3 mr-1" />
+                                  AI
+                                </Badge>
+                              </div>
+                              <CardDescription className="text-sm leading-relaxed">
+                                {project.description}
+                              </CardDescription>
+
+                              <div className="grid grid-cols-2 gap-3 mt-3 text-xs">
+                                <div>
+                                  <Label className="text-xs text-muted-foreground">
+                                    Difficulty
+                                  </Label>
+                                  <p className="text-sm font-medium">
+                                    {project.difficulty}
+                                  </p>
+                                </div>
+                                <div>
+                                  <Label className="text-xs text-muted-foreground">
+                                    Time
+                                  </Label>
+                                  <p className="text-sm font-medium">
+                                    {project.timeEstimate}
+                                  </p>
+                                </div>
+                              </div>
+
+                              <div className="mt-3">
+                                <Label className="text-xs text-muted-foreground">
+                                  Technologies
+                                </Label>
+                                <div className="flex flex-wrap gap-1 mt-1">
+                                  {project.technologies.slice(0, 3).map((tech) => (
                                     <Badge
                                       key={tech}
                                       variant="secondary"
@@ -595,25 +684,41 @@ export default function CreateProjectPage() {
                                       {tech}
                                     </Badge>
                                   ))}
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        </div>
+                            </CardHeader>
+                            <CardContent className="pt-0">
+                              <div className="flex gap-2">
+                                <Button size="sm" className="flex-1" disabled={!isPremium}>
+                                  <Rocket className="w-3 h-3 mr-1" />
+                                  Start Project
+                                </Button>
+                                <Button variant="outline" size="sm" disabled={!isPremium}>
+                                  Save
+                                </Button>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex gap-3">
-                        <Button className="flex-1" disabled>
-                          <Rocket className="w-4 h-4 mr-2" />
-                          Start This Project
-                        </Button>
-                        <Button variant="outline" disabled>
-                          Save for Later
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+
+                      {!isPremium && (
+                        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-orange-500/5">
+                          <CardContent className="p-4 text-center">
+                            <Button
+                              size="sm"
+                              className="w-full bg-gradient-to-r from-primary to-orange-500 hover:from-primary/90 hover:to-orange-500/90"
+                              onClick={() => setShowUpsell(true)}
+                            >
+                              <Crown className="w-3 h-3 mr-2" />
+                              Unlock AI Features
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
