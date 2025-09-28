@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   BookOpen,
   Code,
@@ -27,6 +28,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -34,12 +44,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserDetails } from "@/hooks/use-user-details";
 
 export default function DashboardComponent() {
   const { data: userDetails, isLoading, error } = useUserDetails();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    tag_slug: "",
+    skill_level: "",
+    years_experience: ""
+  });
 
   // Get user's initials for avatar
   const userInitials = userDetails
@@ -48,6 +73,32 @@ export default function DashboardComponent() {
 
   // Get user's first name
   const firstName = userDetails?.firstName || "John";
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSelectChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      skill_level: value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Technology data:", formData);
+    setIsModalOpen(false);
+    setFormData({
+      tag_slug: "",
+      skill_level: "",
+      years_experience: ""
+    });
+  };
 
   // Simple loading state
   if (isLoading) {
@@ -569,14 +620,82 @@ export default function DashboardComponent() {
                     <Progress value={tech.level} className="h-2" />
                   </div>
                 ))}
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full mt-4 bg-transparent"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Technology
-                </Button>
+                <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full mt-4 bg-transparent"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Technology
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Add New Technology</DialogTitle>
+                      <DialogDescription>
+                        Add a new technology to your profile. Fill in the details below.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleSubmit}>
+                      <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="tag_slug" className="text-right">
+                            Technology
+                          </Label>
+                          <Input
+                            id="tag_slug"
+                            name="tag_slug"
+                            value={formData.tag_slug}
+                            onChange={handleInputChange}
+                            placeholder="e.g., react, python, aws"
+                            className="col-span-3"
+                            required
+                          />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="skill_level" className="text-right">
+                            Skill Level
+                          </Label>
+                          <Select value={formData.skill_level} onValueChange={handleSelectChange} required>
+                            <SelectTrigger className="col-span-3">
+                              <SelectValue placeholder="Select skill level" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="beginner">Beginner</SelectItem>
+                              <SelectItem value="intermediate">Intermediate</SelectItem>
+                              <SelectItem value="expert">Expert</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="years_experience" className="text-right">
+                            Years
+                          </Label>
+                          <Input
+                            id="years_experience"
+                            name="years_experience"
+                            type="number"
+                            value={formData.years_experience}
+                            onChange={handleInputChange}
+                            placeholder="Years of experience"
+                            className="col-span-3"
+                            min="0"
+                            step="0.5"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button type="button" variant="outline" onClick={() => setIsModalOpen(false)}>
+                          Cancel
+                        </Button>
+                        <Button type="submit">Add Technology</Button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
               </CardContent>
             </Card>
 
