@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import router from "next/router";
 import { signOut, useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -61,7 +61,7 @@ import { addUserTechnology } from "@/lib/api-client";
 import { type UserProject, UserProjectSchema } from "@/types/users";
 
 export default function DashboardComponent() {
-  const { data: userDetails, isLoading } = useUserDetails();
+  const { data: userDetails, isLoading, error, refetch } = useUserDetails();
   const { projects } = userDetails || {};
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -128,6 +128,7 @@ export default function DashboardComponent() {
       console.error("Failed to add technology:", error);
     } finally {
       setIsSubmitting(false);
+      refetch()
     }
   };
 
@@ -654,21 +655,15 @@ export default function DashboardComponent() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {[
-                  { name: "React", level: 95, years: 4 },
-                  { name: "TypeScript", level: 88, years: 3 },
-                  { name: "Node.js", level: 82, years: 3 },
-                  { name: "Python", level: 75, years: 2 },
-                  { name: "Next.js", level: 90, years: 2 },
-                ].map((tech) => (
+                {userDetails?.technologies?.toReversed().map((tech) => (
                   <div key={tech.name} className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
                       <span className="font-medium">{tech.name}</span>
                       <span className="text-muted-foreground">
-                        {tech.years}y exp
+                        {tech.years_experience}y exp
                       </span>
                     </div>
-                    <Progress value={tech.level} className="h-2" />
+                    <Progress value={Math.min(tech.name.length + (tech?.years_experience  * 20), 100)} className="h-2" />
                   </div>
                 ))}
                 <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
