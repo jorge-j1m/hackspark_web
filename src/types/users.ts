@@ -4,7 +4,8 @@ import type { ApiResponse } from ".";
 export const UserTechSchema = z.object({
   name: z.string(),
   slug: z.string(),
-  skill_level: z.string(),
+  skill_level: z.enum(["beginner", "intermediate", "expert"]),
+  years_experience: z.number().optional(),
 });
 
 export const UserProjectSchema = z.object({
@@ -21,8 +22,6 @@ export const UserDetailsSchema = z.object({
   lastName: z.string(),
   username: z.string(),
   email: z.string(),
-  // technologies: z.optional(z.array(UserTechSchema)), these may be null
-  // projects: z.optional(z.array(UserProjectSchema)),
   technologies: z.array(UserTechSchema).optional(),
   projects: z.array(UserProjectSchema).optional(),
 });

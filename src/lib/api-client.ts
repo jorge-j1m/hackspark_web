@@ -81,8 +81,8 @@ export class ApiClient {
         throw new ApiClientError("API request failed", response.status);
       }
 
-      if (method === "DELETE") {
-        // DELETE returns no data, so no need to parse
+      if (method === "DELETE" || response.status === 201) {
+        // DELETE or 201 returns no data, so no need to parse
         return null as z.infer<T>; // Return null as the inferred type
       }
 
@@ -162,4 +162,17 @@ export async function createAuthenticatedApiClient(): Promise<ApiClient> {
     throw new ApiClientError("No valid session found", 401);
   }
   return new ApiClient(session.user.sessionId);
+}
+
+// Technology API functions
+export async function addUserTechnology(
+  data: {
+    tag_slug: string;
+    skill_level: "beginner" | "intermediate" | "expert";
+    years_experience: number;
+  },
+  sessionId: string
+): Promise<void> {
+  const client = createApiClient(sessionId);
+  await client.post("/users/technologies", z.null(), data);
 }

@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import router from "next/router";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -56,10 +56,13 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserDetails } from "@/hooks/use-user-details";
+import { addUserTechnology } from "@/lib/api-client";
 
 export default function DashboardComponent() {
   const { data: userDetails, isLoading, error } = useUserDetails();
+  const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     tag_slug: "",
     skill_level: "",
@@ -89,15 +92,34 @@ export default function DashboardComponent() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Technology data:", formData);
-    setIsModalOpen(false);
-    setFormData({
-      tag_slug: "",
-      skill_level: "",
-      years_experience: "",
-    });
+
+    if (!session?.user?.sessionId) {
+      console.error("No session found");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await addUserTechnology({
+        tag_slug: formData.tag_slug,
+        skill_level: formData.skill_level as "beginner" | "intermediate" | "expert",
+        years_experience: Number(formData.years_experience),
+      }, session.user.sessionId);
+
+      setIsModalOpen(false);
+      setFormData({
+        tag_slug: "",
+        skill_level: "",
+        years_experience: "",
+      });
+    } catch (error) {
+      console.error("Failed to add technology:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Simple loading state
@@ -702,10 +724,13 @@ export default function DashboardComponent() {
                           type="button"
                           variant="outline"
                           onClick={() => setIsModalOpen(false)}
+                          disabled={isSubmitting}
                         >
                           Cancel
                         </Button>
-                        <Button type="submit">Add Technology</Button>
+                        <Button type="submit" disabled={isSubmitting}>
+                          {isSubmitting ? "Adding..." : "Add Technology"}
+                        </Button>
                       </DialogFooter>
                     </form>
                   </DialogContent>
