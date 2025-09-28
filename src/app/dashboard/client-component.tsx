@@ -18,6 +18,7 @@ import Link from "next/link";
 import router from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -144,7 +145,7 @@ export default function DashboardComponent() {
     );
   }
 
-  function countProjectLikes(projects: UserProject[]) {
+  function _countProjectLikes(projects: UserProject[]) {
     return projects.reduce((acc, project) => {
       // validate each project
       const parsed = UserProjectSchema.parse(project);
@@ -200,6 +201,7 @@ export default function DashboardComponent() {
             </Link>
           </nav>
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
