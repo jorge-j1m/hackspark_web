@@ -25,6 +25,11 @@ export default function AuthGuard({ children }: AuthGuardProps) {
         router.replace("/login");
         return;
       }
+    } else {
+      if (pathname === "/login") {
+        router.replace("/dashboard");
+        return;
+      }
     }
   }, [session, status, pathname, router]);
 
@@ -34,6 +39,11 @@ export default function AuthGuard({ children }: AuthGuardProps) {
 
   if (!session) {
     if (pathname === "/dashboard" || pathname === "/create") {
+      return null;
+    }
+  } else {
+    if (pathname === "/login") {
+      router.replace("/dashboard");
       return null;
     }
   }
